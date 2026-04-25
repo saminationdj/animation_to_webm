@@ -75,8 +75,8 @@ IF NOT DEFINED inputcheck (
   ECHO  Press any button for final set of details or instructions & PAUSE > nul & ECHO: & ECHO:
   ECHO  Create these text files for parameters:
   ECHO     jpg.txt               Set sequence-format to JPG ^(primarely for flash extraction, default is PNG^)
-  ECHO     prefix_^*.txt          Adds anything after _ as a prefix to the outputed filename (^prefix_filename.webm^)
-  ECHO     suffix_^*.txt          Adds anything after _ as a suffix to the outputed filename (^filename_suffix.webm^)
+  ECHO     prefix_^*.txt          Adds anything after _ as a prefix to the outputed filename ^(prefix_filename.webm^)
+  ECHO     suffix_^*.txt          Adds anything after _ as a suffix to the outputed filename ^(filename_suffix.webm^)
   ECHO                           Both prefix and suffix work at the same time
   ECHO     realreal.txt          x4 upscale using Normal settings ^(Anime settings are default^)
   ECHO     unpause1.txt          Script pauses by default after gathering parameters. This bypasses that pause.
