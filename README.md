@@ -14,7 +14,7 @@ This Command bat file does various things, usually in tandem, such as:
 * waifu2x if using 2x upscaling: https://github.com/YukihoAA/waifu2x_snowshell
 * Real-ESRGAN if using 4x upscaling: https://github.com/xinntao/real-esrgan
 * JPEXS Decompiler for ffdec/flash extractor: https://github.com/jindrapetrik/jpexs-decompiler
-* WebPC Codec https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
+* WebP Codec https://developers.google.com/speed/webp/download
 ### Last tested versions:
 * ffmpeg:      Build date 2017-11-23
 * waifu2x:     Snowshell 2.6.1
