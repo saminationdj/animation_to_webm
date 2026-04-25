@@ -79,3 +79,20 @@ Both prefix and suffix work at the same time
   * Delete only the source file
 * deleteall.txt
   * Delete both source file as well as created folder
+
+## Install Section:
+1. Download and install/extract all the required software. At the moment only Real-ESRGAN is used.
+2. Locate these lines and change them to their corresponding location:
+   * `:: PROGRAM SETTINGS`
+   * SET "pathtoffdec=C:\PathtoProgram.exe"
+   * SET "pathtowaifu=C:\PathtoProgram.exe"
+   * SET "pathtorealesg=C:\PathtoProgram.exe"
+   * SET "pathtoffmpeg=C:\PathtoProgram.exe"
+   * SET "pathtoimconvert=C:\PathtoProgram.exe"
+   * SET "pathtolibwebp=C:\PathtoProgram.exe"  
+Note: Keep the quotation marks.
+3. Change any of the variables under the `:: SOME DEFAULT SETTINGS` section if you wish to change the default settings.
+
+## Usage Section:
+1. Create any of the text files listed above of the custom parameters based on the various criteras your files have. You can edit the .BAT file to suit your needs, but it would be best to keep animations with similar process-steps in their own folders and create the text-files that suits their needs.
+2. Drag and drop the animation file you wish to process. This .BAT only works with one file at a time, so it will ignore any multiple selected files.
