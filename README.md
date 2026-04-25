@@ -88,12 +88,12 @@ Both prefix and suffix work at the same time
 1. Download and install/extract all the required software. At the moment only Real-ESRGAN is used.
 2. Locate these lines and change them to their corresponding location:
    * `:: PROGRAM SETTINGS`
-   * SET "pathtoffdec=C:\PathtoProgram.exe"
-   * SET "pathtowaifu=C:\PathtoProgram.exe"
-   * SET "pathtorealesg=C:\PathtoProgram.exe"
-   * SET "pathtoffmpeg=C:\PathtoProgram.exe"
-   * SET "pathtoimconvert=C:\PathtoProgram.exe"
-   * SET "pathtolibwebp=C:\PathtoProgram.exe"  
+   * SET "pathtoffdec=Path\to\ffdec.bat"
+   * SET "pathtowaifu=Path\to\waifu2x-*.exe"
+   * SET "pathtorealesg=Path\to\realesrgan-*.exe"
+   * SET "pathtoffmpeg=Path\to\ffmpeg.exe"
+   * SET "pathtoimconvert=Path\to\convert.exe"
+   * SET "pathtolibwebp=Path\to\anim_dump.exe"
 Note: Keep the quotation marks.
 3. Change any of the variables under the `:: SOME DEFAULT SETTINGS` section if you wish to change the default settings.
 
