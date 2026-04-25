@@ -14,11 +14,13 @@ This Command bat file does various things, usually in tandem, such as:
 * waifu2x if using 2x upscaling: https://github.com/YukihoAA/waifu2x_snowshell
 * Real-ESRGAN if using 4x upscaling: https://github.com/xinntao/real-esrgan
 * JPEXS Decompiler for ffdec/flash extractor: https://github.com/jindrapetrik/jpexs-decompiler
+* WebPC Codec https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
 ### Last tested versions:
 * ffmpeg:      Build date 2017-11-23
 * waifu2x:     Snowshell 2.6.1
 * Real-ESRGAN: 0.2.5 2022-04-24
 * ffdec:       21.1.0
+* LibWebP      1.6.0
 
 ### General Notes
 * Make sure that the files created in any process (either within here or outside) are not in two-digit filenames with leading zeros. Because of a quirk in DOS, numbers with leading zero (00 to 09) will be read as Octal, and will cause the scripts to act up.
