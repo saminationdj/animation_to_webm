@@ -35,9 +35,9 @@ After extraction and using pause2.txt, go into the created folder and move or re
 * jpg.txt
   * Set sequence-format to JPG (primarely for flash extraction, default is PNG)
 * prefix_*.txt
-  * Adds anything after _ as a prefix to the outputed filename (^prefix_filename.webm)
+  * Adds anything after _ as a prefix to the outputed filename (prefix_filename.webm)
 * suffix_*.txt
-  * Adds anything after _ as a suffix to the outputed filename (^filename_suffix.webm)<br/>
+  * Adds anything after _ as a suffix to the outputed filename (filename_suffix.webm)<br/>
 Both prefix and suffix work at the same time
 * realreal.txt
   * x4 upscale using Normal settings (Anime settings are default)
