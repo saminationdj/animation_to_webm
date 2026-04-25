@@ -111,12 +111,12 @@ IF NOT DEFINED inputcheck (
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: PROGRAM SETTINGS
-SET "pathtoffdec=C:\PathtoProgram.exe"
-SET "pathtowaifu=C:\PathtoProgram.exe"
-SET "pathtorealesg=C:\PathtoProgram.exe"
-SET "pathtoffmpeg=C:\PathtoProgram.exe"
-SET "pathtoimconvert=C:\PathtoProgram.exe"
-SET "pathtolibwebp=C:\PathtoProgram.exe"
+SET "pathtoffdec=Path\to\ffdec.bat"
+SET "pathtowaifu=Path\to\waifu2x-*.exe"
+SET "pathtorealesg=Path\to\realesrgan-*.exe"
+SET "pathtoffmpeg=Path\to\ffmpeg.exe"
+SET "pathtoimconvert=Path\to\convert.exe"
+SET "pathtolibwebp=Path\to\anim_dump.exe"
 
 :: SOME DEFAULT SETTINGS
 SET fps=8
