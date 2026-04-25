@@ -96,3 +96,7 @@ Note: Keep the quotation marks.
 ## Usage Section:
 1. Create any of the text files listed above of the custom parameters based on the various criteras your files have. You can edit the .BAT file to suit your needs, but it would be best to keep animations with similar process-steps in their own folders and create the text-files that suits their needs.
 2. Drag and drop the animation file you wish to process. This .BAT only works with one file at a time, so it will ignore any multiple selected files.
+
+## Referals
+* https://ss64.com/ for most of the Windows Batch commands.
+* Various Stackoverflows that I'm sure I have browsed and forgot to save...
