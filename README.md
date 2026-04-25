@@ -94,6 +94,7 @@ Both prefix and suffix work at the same time
    * SET "pathtoffmpeg=Path\to\ffmpeg.exe"
    * SET "pathtoimconvert=Path\to\convert.exe"
    * SET "pathtolibwebp=Path\to\anim_dump.exe"
+
 Note: Keep the quotation marks.
 3. Change any of the variables under the `:: SOME DEFAULT SETTINGS` section if you wish to change the default settings.
 
