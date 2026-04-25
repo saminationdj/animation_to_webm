@@ -161,14 +161,12 @@ IF EXIST "skipupscale.txt" SET skip4=1
 IF EXIST "skipencode.txt" SET skip5=1
 IF EXIST "frame*.txt" (
     IF NOT EXIST "framefile.txt" (
-      FOR %%G in (frame*.txt) DO ( SET frame=%%G ) & SET "fps=!frame:~5,-4!" 
+      FOR %%G in (frame*.txt) DO ( SET "frame=%%G" ) & SET "fps=!frame:~5,-4!" 
     )
 )
-::IF EXIST "frame??.txt" ( FOR %%G in (frame??.txt) DO ( SET frame=%%G ) & SET "fps=!frame:~5,2!" )
 IF EXIST "quality*.txt" (
-  FOR %%G in (quality*.txt) DO ( SET quality=%%G ) & SET "crf=!quality:~7,-4!"
+  FOR %%G in (quality*.txt) DO ( SET "quality=%%G" ) & SET "crf=!quality:~7,-4!"
 )
-::IF EXIST "quality??.txt" ( FOR %%G in (quality??.txt) DO ( SET quality=%%G ) & SET "crf=!quality:~7,2!" )
 IF EXIST "autoexit.txt" SET autoexit=1
 IF EXIST "movefinished.txt" SET movenew=1
 IF EXIST "keepupscaled.txt" SET keepupscaled=1
