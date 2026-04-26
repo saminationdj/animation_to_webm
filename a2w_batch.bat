@@ -7,7 +7,7 @@ SET filelist=_files_to_process.txt
 SET filescount=0
 SET file=1
 
-:: Please only these line below
+:: Please only edit these line below
 SET searchword=*
 SET searchformat=.webp
 DIR %folderparameter% /B %searchword%%searchformat% > %filelist%
