@@ -33,12 +33,16 @@ IF NOT DEFINED inputcheck (
   ECHO        waifu2x if using 2x upscaling: https://github.com/YukihoAA/waifu2x_snowshell
   ECHO        Real-ESRGAN if using 4x upscaling: https://github.com/xinntao/real-esrgan
   ECHO        JPEXS Decompiler for ffdec/flash extractor: https://github.com/jindrapetrik/jpexs-decompiler
+  ECHO        WebP Codec for WebP anim_drop https://developers.google.com/speed/webp/download
+  ECHO        ImageMagick for GIF conversion https://imagemagick.org/
   ECHO:
   ECHO  Last tested versions:
   ECHO        ffmpeg:      Build date 2017-11-23
   ECHO        waifu2x:     Snowshell 2.6.1
   ECHO        Real-ESRGAN: 0.2.5 2022-04-24
   ECHO        ffdec:       21.1.0
+  ECHO        LibWebP      1.6.0
+  ECHO        ImageMagick: 6.8.8-9
   ECHO:
   ECHO:
   ECHO  Press any button for further details or instructions & PAUSE > nul & ECHO: & ECHO:
@@ -56,7 +60,7 @@ IF NOT DEFINED inputcheck (
   ECHO  Note when using Flash SWF:
   ECHO        When using FFDec to extract images, it is prefered that you do not skip the
   ECHO        Pre-renaming step as mentioned above, as FFDec exports them in digits without
-  ECHO        leading zero. Also, using pause2.txt is recommended, as FFDec exports all images,
+  ECHO        leading zero. Also, using pause_2.txt is recommended, as FFDec exports all images,
   ECHO        so there may contain garbage images you do not want to be encoded as a frame
   ECHO        in the video. Depending on how the images are stored, FFDec might export them
   ECHO        as JPEG or PNG. To my knowledge, any video or animations are always JPEG, hence
@@ -64,7 +68,7 @@ IF NOT DEFINED inputcheck (
   ECHO:
   ECHO:
   ECHO  Tips for creating loops.
-  ECHO        After extraction and using pause2.txt, go into the created folder and move or
+  ECHO        After extraction and using pause_2.txt, go into the created folder and move or
   ECHO        remove any excess images you do not want in the looped video. If source file
   ECHO        contains several loopable sections, create new folders for eacho seperate loop,
   ECHO        and put those folders in the same folder as source. Then after you've encoded
@@ -79,18 +83,22 @@ IF NOT DEFINED inputcheck (
   ECHO     suffix_^*.txt          Adds anything after _ as a suffix to the outputed filename ^(filename_suffix.webm^)
   ECHO                           Both prefix and suffix work at the same time
   ECHO     realreal.txt          x4 upscale using Normal settings ^(Anime settings are default^)
-  ECHO     unpause1.txt          Script pauses by default after gathering parameters. This bypasses that pause.
-  ECHO     pause2.txt            Pause after extraction ^(automaticly skipped if input is a folder^)
-  ECHO     pause3.txt            Pause after pre-renaming
-  ECHO     pause4.txt            Pause after upscaling
-  ECHO     pause5.txt            Pause after video creation
-  ECHO     skip2.txt             Skip extraction ^(automatic if input is a folder^)
-  ECHO     skip3.txt             Skip renaming ^(filenames need to anything other than 2 digits that might have a leading zero^)
-  ECHO     skip4.txt             Skip upscaling ^(just renames files to frame^?^?^?^?.ext^)
-  ECHO     skip5.txt             Skip video creation
-  ECHO     frame^*.txt            Set framerate to whatever ^* is ^(Default is 8, max is 99^)
-  ECHO     framefile.txt         Add framerate to the end of the processed file^(s^) in 2 digits.
-  ECHO     quality^*.txt          Set video quality to whatever ^* is ^(Default is 18, max is 63^)
+  ECHO     unpause_1.txt         Script pauses by default after gathering parameters. This bypasses that pause.
+  ECHO     pause_2.txt           Pause after extraction ^(automaticly skipped if input is a folder^)
+  ECHO     pause_3.txt           Pause after pre-renaming
+  ECHO     pause_4.txt           Pause after upscaling
+  ECHO     pause_5.txt           Pause after video creation
+  ECHO     skip_2.txt            Skip extraction ^(automatic if input is a folder^)
+  ECHO     skip_extract.txt
+  ECHO     skip_3.txt            Skip renaming ^(filenames need to anything other than 2 digits that might have a leading zero^)
+  ECHO     skip_rename.txt / skip_naming.txt
+  ECHO     skip_4.txt            Skip upscaling ^(just renames files to frame^?^?^?^?.ext^)
+  ECHO     skip_upscale.txt
+  ECHO     skip_5.txt            Skip video creation
+  ECHO     skip_encode.txt
+  ECHO     frame_^*.txt           Set framerate to whatever ^* is ^(Default is 8, max is 99^)
+  ECHO     frame_file.txt        Add framerate to the end of the processed file^(s^) in 2 digits.
+  ECHO     quality_^*.txt         Set video quality to whatever ^* is ^(Default is 18, max is 63^)
   ECHO     autoexit.txt          Exit when done ^(useful for batch processing^)
   ECHO     movefinished.txt      Move video to a seperate Done folder
   ECHO     keepupscaled.txt      Keep the upscaled folder
@@ -102,7 +110,7 @@ IF NOT DEFINED inputcheck (
   ECHO  Press any button to exit
   PAUSE > nul
   EXIT
- )
+)
 
 
 
@@ -124,13 +132,13 @@ SET searchformat=.png
 SET realanime=realesrgan-x4plus-anime -s 4 -v
 SET realreal=realesrgan-x4plus -s 4 -v
 SET realesgsetting=%realanime%
+SET originalscopied=
 SET crf=18
-:: lower = better quality. Recommended is around 18-22 to keep size somewhat down.
+:: lower crf = better quality. Recommended is around 18-22 to keep size somewhat down. Range for libvpx is between 4 to 63
 
 :: MANUAL SWITCHES
 :: Remove value to disable
 SET deleteme=
-SET originalscopied=
 SET deletefilesource=
 SET skip2=
 SET skip3=
@@ -145,27 +153,57 @@ SET keepupscaled=
 SET deloriginals=
 SET movenew=
 
+IF NOT EXIST "frame_*.txt" (
+  ECHO WARNING: No frame_^*.txt or frame_file.txt present. Presuming folder has never been used for encoding.
+  ECHO          Type y if you wish to create a few default text files that you can rename with parameters.
+  ECHO          Type yy if you also want to set them.
+  ECHO          Type c if you wish to use the default settings.
+  ECHO          Type in any other letter or close this bat window to stop this script.
+  SET /P "userprompt=Type y[es], c[ontinue with defaults] or any other letter to stop: "
+  IF /I "!userprompt!" == "y" (
+    TYPE nul >frame.txt
+    TYPE nul >pause.txt
+    TYPE nul >quality.txt
+    TYPE nul >skip.txt
+    ECHO You've now created a set of files. Rename them and press any button to continue, or close this window and rename them after.
+    PAUSE > nul
+  ) ELSE IF /I "!userprompt!" == "yy" (
+    SET /P "uframe=Frames per second (1 to 99, default is 8): "
+    TYPE nul >frame_!uframe!.txt
+    SET /P "uquality=CRF Quality (4 to 63, default is 18): "
+    TYPE nul >quality_!uquality!.txt
+  ) ELSE IF /I "!userprompt!" == "c" (
+    ECHO Continue with default settings.
+    PAUSE
+  ) ELSE (
+    ECHO Nothing will be done. Press any button to close this window.
+    PAUSE > nul
+    GOTO :SKIPALL
+  )
+)
+
 :: FILE-BASED SWITCHES
-IF EXIST "unpause1.txt" SET unpause1=1
-IF EXIST "pause2.txt" SET pause2=1
-IF EXIST "pause3.txt" SET pause3=1
-IF EXIST "pause4.txt" SET pause4=1
-IF EXIST "pause5.txt" SET pause5=1
-IF EXIST "skip2.txt" SET skip2=1
-IF EXIST "skip3.txt" SET skip3=1
-IF EXIST "skip4.txt" SET skip4=1
-IF EXIST "skip5.txt" SET skip5=1
-IF EXIST "skipextract.txt" SET skip2=1
-IF EXIST "skipnaming.txt" SET skip3=1
-IF EXIST "skipupscale.txt" SET skip4=1
-IF EXIST "skipencode.txt" SET skip5=1
-IF EXIST "frame*.txt" (
-    IF NOT EXIST "framefile.txt" (
-      FOR %%G in (frame*.txt) DO ( SET "frame=%%G" ) & SET "fps=!frame:~5,-4!" 
+IF EXIST "unpause_1.txt" SET unpause1=1
+IF EXIST "pause_2.txt" SET pause2=1
+IF EXIST "pause_3.txt" SET pause3=1
+IF EXIST "pause_4.txt" SET pause4=1
+IF EXIST "pause_5.txt" SET pause5=1
+IF EXIST "skip_2.txt" SET skip2=1
+IF EXIST "skip_3.txt" SET skip3=1
+IF EXIST "skip_4.txt" SET skip4=1
+IF EXIST "skip_5.txt" SET skip5=1
+IF EXIST "skip_extract.txt" SET skip2=1
+IF EXIST "skip_naming.txt" SET skip3=1
+IF EXIST "skip_rename.txt" SET skip3=1
+IF EXIST "skip_upscale.txt" SET skip4=1
+IF EXIST "skip_encode.txt" SET skip5=1
+IF EXIST "frame_*.txt" (
+    IF NOT EXIST "frame_file.txt" (
+      FOR %%G in (frame_*.txt) DO ( SET "frame=%%G" ) & SET "fps=!frame:~6,-4!" 
     )
 )
-IF EXIST "quality*.txt" (
-  FOR %%G in (quality*.txt) DO ( SET "quality=%%G" ) & SET "crf=!quality:~7,-4!"
+IF EXIST "quality_*.txt" (
+  FOR %%G in (quality_*.txt) DO ( SET "quality=%%G" ) & SET "crf=!quality:~8,-4!"
 )
 IF EXIST "autoexit.txt" SET autoexit=1
 IF EXIST "movefinished.txt" SET movenew=1
@@ -190,7 +228,13 @@ SET filescount=0
 SET currentfile=1
 
 :: EXTRA CHECKS
-IF EXIST "framefile.txt" ( ECHO: & ECHO Getting FPS from filename & SET fps=%folder:~-2% )
+IF EXIST "frame_file.txt" ( ECHO: & ECHO NOTE: Getting FPS from filename & SET "fps=%folder:~-2%" )
+IF NOT DEFINED fps ( ECHO WARNING: FPS has been unset for some reason. Defaulting to 8. & SET "fps=8" )
+IF NOT DEFINED crf ( ECHO WARNING: CRF Quality has been unset for some reason. Defaulting to 18. & SET "crf=18" )
+IF %crf% LSS 4 ( ECHO WARNING: Quality setting is too low. Will set to 4. & SET "crf=4" )
+IF %crf% GTR 63 ( ECHO WARNING: Quality setting is too high. Will set to 63. & SET "crf=63" )
+IF %fps% LSS 1 ( ECHO WARNING: FPS is too low. Will set to 1. & SET "fps=1" )
+IF %fps% GTR 120 ( ECHO WARNING: FPS is too high. Will set to 120. & SET "fps=120" )
 
 TITLE %fileonly%, Starting
 ECHO:
@@ -239,7 +283,6 @@ IF /I "%fileonly%" == "%folder%" (
   GOTO :SKIPEXT
 ) ELSE IF /I "%fileext%" == ".swf" (
   ECHO %time% Step 2: Extracting images from Flash file
-  :: CALL "%pathtoffdec%" -format image:png -export image "%folderpath%\%folder%" "%file%"
   CALL "%pathtoffdec%" -export image "%folderpath%\%folder%" "%file%"
 ) ELSE IF /I "%fileext%" == ".gif" (
   ECHO %time% Step 2: Extracting frames from GIF file
