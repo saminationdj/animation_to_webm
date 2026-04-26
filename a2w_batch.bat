@@ -10,7 +10,6 @@ SET file=1
 :: Please only edit these line below
 SET searchword=*
 SET searchformat=.webp
-DIR %folderparameter% /B %searchword%%searchformat% > %filelist%
 SET filesonly=
 SET foldersonly=
 :: end of editable lines
@@ -20,6 +19,8 @@ IF DEFINED filesonly (
 ) ELSE IF DEFINED foldersonly (
   SET "folderparameter=/A:D"
 )
+
+DIR %folderparameter% /B %searchword%%searchformat% > %filelist%
 
 FOR /F "tokens=1,2* delims=," %%G in (%filelist%) DO (
   SET /a "filescount=filescount + 1"
