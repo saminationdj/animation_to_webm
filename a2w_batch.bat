@@ -3,16 +3,9 @@
 @ECHO off
 SETLOCAL ENABLEDELAYEDEXPANSION
 SET "batfile=Path\To\animation_to_webm.bat"
-SET filelist=filestoprocess.txt
+SET filelist=_files_to_process.txt
 SET filescount=0
 SET file=1
-
-
-IF DEFINED filesonly (
-  SET "folderparameter=/A:-D"
-) ELSE IF DEFINED foldersonly (
-  SET "folderparameter=/A:D"
-)
 
 :: Please only these line below
 SET searchword=*
@@ -21,6 +14,12 @@ DIR %folderparameter% /B %searchword%%searchformat% > %filelist%
 SET filesonly=
 SET foldersonly=
 :: end of editable lines
+
+IF DEFINED filesonly (
+  SET "folderparameter=/A:-D"
+) ELSE IF DEFINED foldersonly (
+  SET "folderparameter=/A:D"
+)
 
 FOR /F "tokens=1,2* delims=," %%G in (%filelist%) DO (
   SET /a "filescount=filescount + 1"
