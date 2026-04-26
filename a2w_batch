@@ -1,3 +1,5 @@
+::This bat file can be placed in the directory of the files that need processing.
+::As long as the %batfile% is updated correctly, it should always work on all non-UNC paths.
 @ECHO off
 SETLOCAL ENABLEDELAYEDEXPANSION
 SET "batfile=Path\To\animation_to_webm.bat"
