@@ -1,0 +1,45 @@
+@ECHO off
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET "batfile=Path\To\animation_to_webm.bat"
+SET filelist=filestoprocess.txt
+SET filescount=0
+SET file=1
+
+
+IF DEFINED filesonly (
+  SET "folderparameter=/A:-D"
+) ELSE IF DEFINED foldersonly (
+  SET "folderparameter=/A:D"
+)
+
+:: Please only these line below
+SET searchword=*
+SET searchformat=.webp
+DIR %folderparameter% /B %searchword%%searchformat% > %filelist%
+SET filesonly=
+SET foldersonly=
+:: end of editable lines
+
+FOR /F "tokens=1,2* delims=," %%G in (%filelist%) DO (
+  SET /a "filescount=filescount + 1"
+)
+ECHO %filescount% files to process.
+
+FOR /F %%G in (%filelist%) DO (
+  SET filetoprocess=%%~G
+  SET filetoprocessx=%%~nG
+  TITLE Processing file !file! of %filescount%
+  ECHO Processing file %%~G ^(!file! of %filescount%^)
+  IF EXIST "!filetoprocessx!.webm" (
+    ECHO WARNING: File !filetoprocessx!.webm already exist. Doing nothing.
+  ) ELSE (
+    START "%%~G" /min /wait %batfile% "!filetoprocess!"
+  )
+  SET /a "file=file + 1"
+)
+
+DEL %filelist%
+
+PAUSE
+
+EXIT
