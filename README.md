@@ -29,7 +29,7 @@ This Command bat file does various things, usually in tandem, such as:
 * Because of how DOS sorts files, PRE-RENAMING is needed if filenames contain no leading zeros (outside the above Octal). This means for example that 10.txt will come before 2.txt, 209.txt before 3.txt etc... Hence why the PRE-RENAMING is needed, as it adds the value 10000 to each file, making them start sort better, for example 10001, 10002, 10003, 10100 etc...
 
 ### Note when using Flash SWF:
-When using FFDec to extract images, it is prefered that you do not skip the Pre-renaming step as mentioned above, as FFDec exports them in digits without leading zero. Also, using pause2.txt is recommended, as FFDec exports all images, so there may contain garbage images you do not want to be encoded as a frame in the video. Depending on how the images are stored, FFDec might export them as JPEG or PNG. To my knowledge, any video or animations are always JPEG, hence the need to use jpg.txt
+When using FFDec to extract images, it is prefered that you do not skip the Pre-renaming step as mentioned above, as FFDec exports them in digits without leading zero. Also, using `pause_2.txt` is recommended, as FFDec exports all images, so there may contain garbage images you do not want to be encoded as a frame in the video. Depending on how the images are stored, FFDec might export them as JPEG or PNG. To my knowledge, any video or animations are always JPEG, hence the need to use jpg.txt
 
 
 ### Tips for creating loops
@@ -45,30 +45,30 @@ After extraction and using pause2.txt, go into the created folder and move or re
 Both prefix and suffix work at the same time
 * realreal.txt
   * x4 upscale using Normal settings (Anime settings are default)
-* unpause1.txt
+* unpause_1.txt
   * Script pauses by default after gathering parameters. This bypasses that pause.
-* pause2.txt
+* pause_2.txt
   * Pause after extraction (automaticly skipped if input is a folder)
-* pause3.txt
+* pause_3.txt
   * Pause after pre-renaming
-* pause4.txt
+* pause_4.txt
   * Pause after upscaling
-* pause5.txt
+* pause_5.txt
   * Pause after video creation
-* skip2.txt
+* skip_2.txt / skip_extract.txt
   * Skip extraction (automatic if input is a folder)
-* skip3.txt
+* skip_3.txt / skip_rename.txt / skip_naming.txt
   * Skip renaming (filenames need to anything other than 2 digits that might have a leading zero)
-* skip4.txt
+* skip_4.txt / skip_upscale.txt
   * Skip upscaling (just renames files to frame????.ext)
-* skip5.txt
+* skip_5.txt / skip_encode
   * Skip video creation
-* frame*.txt
-  * Set framerate to whatever * is (Default is 8, max is 99)
-* framefile.txt
+* frame_*.txt
+  * Set framerate to whatever * is (Default is 8, prefered max is 99)
+* frame_file.txt
   * Add framerate to the end of the processed file(s) in 2 digits.
-* quality*.txt
-  * Set video quality to whatever * is (Default is 18, max is 63)
+* quality_*.txt
+  * Set video quality to whatever * is (Default is 18, min is 4 and max is 63)
 * autoexit.txt
   * Exit when done (useful for batch processing)
 * movefinished.txt
@@ -94,7 +94,8 @@ Both prefix and suffix work at the same time
    * SET "pathtoffmpeg=Path\to\ffmpeg.exe"
    * SET "pathtoimconvert=Path\to\convert.exe"
    * SET "pathtolibwebp=Path\to\anim_dump.exe"<br/>
-   Note: Keep the quotation marks.
+   Note: Keep the quotation marks.<br/>
+   Note: Some of these might come with different variations depending on your graphic card in use. Please pick the one that suits your hardware.
 
 3. Change any of the variables under the `:: SOME DEFAULT SETTINGS` section if you wish to change the default settings.
 
